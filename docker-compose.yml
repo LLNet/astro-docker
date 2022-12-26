@@ -1,0 +1,29 @@
+version: '3.3'
+
+services:
+  frontend-web-astro:
+    ports:
+      - "3000:3000"
+    container_name: frontend-web-astro
+    build:
+      context: docker/node
+      args:
+        - USER_ID=1000
+        - GROUP_ID=1000
+    image: node/frontend-web-astro
+    user: 1000:1000
+    stdin_open: true
+    tty: true
+    volumes:
+      - type: bind
+        source: ./app
+        target: /app
+    command: "npm run dev"
+    working_dir: /app
+    networks:
+      - backend
+      - frontend
+
+networks:
+  frontend:
+  backend:
